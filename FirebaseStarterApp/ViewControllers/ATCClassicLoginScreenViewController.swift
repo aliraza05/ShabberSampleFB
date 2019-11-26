@@ -140,13 +140,19 @@ class ATCClassicLoginScreenViewController: UIViewController {
                 guard let `self` = self else { return }
                 var message: String = ""
                 if (success) {
+                    
+                    let mainVC = MainViewController(nibName: "MainViewController", bundle: nil)
+                    self.present(mainVC, animated: true, completion: nil)
+                    
+//                    self.navigationController?.pushViewController(mainVC, animated: true)
+                    
                     message = "User was sucessfully logged in."
                 } else {
                     message = "There was an error."
                 }
                 let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                self.display(alertController: alertController)
+//                self.display(alertController: alertController)
             }
         }
     }
