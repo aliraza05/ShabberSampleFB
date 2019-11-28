@@ -23,11 +23,13 @@ PODS:
     - FBSDKShareKit/Share (= 5.11.1)
   - FBSDKShareKit/Share (5.11.1):
     - FBSDKCoreKit (~> 5.0)
+  - iOSPhotoEditor (1.0.0)
 
 DEPENDENCIES:
   - FacebookCore
   - FacebookLogin
   - FacebookShare
+  - iOSPhotoEditor
 
 SPEC REPOS:
   trunk:
@@ -37,6 +39,7 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
+    - iOSPhotoEditor
 
 SPEC CHECKSUMS:
   FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
@@ -45,7 +48,8 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 5aada61a229054694810f3cee231f986004b3c49
   FBSDKLoginKit: 0e4572e0279e477103b57978e3ea05fac1dd673d
   FBSDKShareKit: 2b4435ecb134e2af8a636524e43b7813e3d60a0b
+  iOSPhotoEditor: 2951f35246a31dcb428b6292248a9c065582d03e
 
-PODFILE CHECKSUM: dede082899dd33534590275ff51ed9bc0d55bd09
+PODFILE CHECKSUM: 9af9197cdc2c251b60ddf43c61b43866aaa94150
 
 COCOAPODS: 1.8.4

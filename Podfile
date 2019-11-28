@@ -9,5 +9,6 @@ target 'FirebaseStarterApp' do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FacebookShare'
+  pod 'iOSPhotoEditor'
   
 end

@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKShareKit
 import FBSDKCoreKit
+import iOSPhotoEditor
 
 extension UIDevice {
     static var isSimulator: Bool {
@@ -16,7 +17,7 @@ extension UIDevice {
     }
 }
 
-class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,SharingDelegate {
+class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,SharingDelegate, PhotoEditorDelegate {
     
     
 
@@ -116,6 +117,41 @@ class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             self.imgView.image = selectedImage!
             picker.dismiss(animated: true, completion: nil)
         }
+        
+        let photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
+        
+        //PhotoEditorDelegate
+        photoEditor.photoEditorDelegate = self
+        
+        //The image to be edited
+        photoEditor.image = selectedImage
+        
+        //Stickers that the user will choose from to add on the image
+        photoEditor.stickers.append(UIImage(named: "s1" )!)
+        photoEditor.stickers.append(UIImage(named: "s2" )!)
+        photoEditor.stickers.append(UIImage(named: "s3" )!)
+        photoEditor.stickers.append(UIImage(named: "s4" )!)
+        photoEditor.stickers.append(UIImage(named: "s5" )!)
+        photoEditor.stickers.append(UIImage(named: "s6" )!)
+
+        //Optional: To hide controls - array of enum control
+//        photoEditor.hiddenControls = [.crop, .draw, .share]
+        
+        //Optional: Colors for drawing and Text, If not set default values will be used
+//        photoEditor.colors = [.red,.blue,.green]
+        
+        //Present the View Controller
+        present(photoEditor, animated: true, completion: nil)
+        
+    }
+    
+    func doneEditing(image: UIImage) {
+        // the edited image
+        imgView.image = image
+    }
+    
+    func canceledEditing() {
+        print("Canceled")
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
