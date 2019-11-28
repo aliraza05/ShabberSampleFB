@@ -10,6 +10,12 @@ import UIKit
 import FBSDKShareKit
 import FBSDKCoreKit
 
+extension UIDevice {
+    static var isSimulator: Bool {
+        return ProcessInfo.processInfo.environment["SIMULATOR_DEVICE_NAME"] != nil
+    }
+}
+
 class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,SharingDelegate {
     
     
@@ -28,14 +34,36 @@ class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINa
 
     @IBAction func selectImgAction(_ sender: Any) {
         imagePicker.allowsEditing = false
+
+        #if targetEnvironment(simulator)
+        // Simulator
         imagePicker.sourceType = .photoLibrary
+
+        #else
+        // Device
+        imagePicker.sourceType = .camera
+
+        #endif
 
         present(imagePicker, animated: true, completion: nil)
     }
+    
     @IBAction func postImageAction(_ sender: Any) {
         
-        let hasPermission = AccessToken.current?.hasGranted(permission: "publish_actions")
         
+        let content = SharePhotoContent()
+        content.photos = [SharePhoto(image: imgView.image!, userGenerated: true)]
+        
+        let dialog = ShareDialog(
+            fromViewController: self,
+            content: content,
+            delegate: self
+        )
+        dialog.mode = .automatic
+        dialog.show()
+        /*
+        var hasPermission = AccessToken.current?.hasGranted(permission: "publish_actions")
+        hasPermission = true
         if hasPermission!
         {
             let content = SharePhotoContent()
@@ -48,6 +76,7 @@ class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             print("require publish_actions permissions")
 
         }
+ */
     }
     
     // MARK: - ShareAPIDelegate Delegate
@@ -87,25 +116,6 @@ class MainViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             self.imgView.image = selectedImage!
             picker.dismiss(animated: true, completion: nil)
         }
-        
-        let photo:SharePhoto = SharePhoto()
-        
-        photo.image = selectedImage
-        photo.isUserGenerated = true
-        
-        let content:SharePhotoContent = SharePhotoContent()
-        content.photos = [photo]
-        
-        let shareButton = FBShareButton()
-        shareButton.center = view.center
-        
-        
-        shareButton.shareContent = content
-        
-        shareButton.center = self.view.center
-        self.view.addSubview(shareButton)
-
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
